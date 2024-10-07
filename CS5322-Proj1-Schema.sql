@@ -16,6 +16,8 @@
 -- same goes for policy investigator and auditor. please feel to add columns/tables if needed. Or else we can just use
 -- the existing db to create policies to only show the particular role - particular data
 
+---------can create roles for the above
+
 ---------have to edit few identifiers to fit oracle db, in progress with them.
 
 --SCHEMAS:
