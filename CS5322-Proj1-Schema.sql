@@ -29,8 +29,7 @@ CREATE TABLE coverage_cd (
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,                         
-    PRIMARY KEY (coverage_code, sub_coverage_code),   
-    UNIQUE (coverage_code)
+    PRIMARY KEY (coverage_code, sub_coverage_code)
 );
 
 CREATE TABLE payment_type_cd (
@@ -121,7 +120,6 @@ CREATE TABLE auto_policy (
 	policy_id                NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,               
 	policy_holder_id         INT NOT NULL,                   -- FK to policy_holder table
 	policy_number            VARCHAR(50) UNIQUE NOT NULL,    
-	coverage_code            VARCHAR(20) NOT NULL,           -- Code for specific coverages(FK to coverage_cd table)
 	total_coverage_limit     DECIMAL(10, 2) NOT NULL,        -- Policy coverage limit
 	amount_deductible        DECIMAL(10, 2) NOT NULL,        -- deductible amount left for the policy
 	total_premium_amount     DECIMAL(10, 2) NOT NULL,        -- total policy premium amount    
@@ -138,7 +136,6 @@ CREATE TABLE auto_policy (
 	updated_user_id		 VARCHAR(100),
 	updated_timestamp	 TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (policy_holder_id) REFERENCES policy_holder(policy_holder_id),            -- FK to policy_holder table
-	FOREIGN KEY (coverage_code)    REFERENCES coverage_cd(coverage_code)                  -- FK to coverage_cd table
     );
 
 CREATE TABLE claims (
