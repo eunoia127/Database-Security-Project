@@ -7,6 +7,15 @@
 -- 5. injury
 -- 6. vendor
 
+-- have not added adjuster code, ids if needed in claims table, but feel free to do so, as that helps filter claims related to that 
+-- adjuster only
+--
+-- a group of adjusters can come under one manager/ all adjusters can come under one manager; 
+-- can introduce static data tables for holding manager and adjuster id/code values.
+-- 
+-- same goes for policy investigator and auditor. please feel to add columns/tables if needed. Or else we can just use
+-- the existing db to create policies to only show the particular role - particular data
+
 --SCHEMAS:
 
 CREATE TABLE policy_holder (
