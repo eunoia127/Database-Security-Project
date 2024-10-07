@@ -23,11 +23,11 @@
 --SCHEMAS:
 
 CREATE TABLE policy_holder (
-    policy_holder_id                INT PRIMARY KEY AUTO_INCREMENT,     
+    policy_holder_id                NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,     
     first_name                      VARCHAR(100) NOT NULL,              
     last_name                       VARCHAR(100) NOT NULL,              
     date_of_birth                   DATE NOT NULL,                      
-    gender                          ENUM('Male', 'Female', 'Other', 'Not specified') DEFAULT 'Not specified',  
+    gender                          VARCHAR(20) DEFAULT 'Not specified' CHECK (gender IN('Male', 'Female', 'Other', 'Not specified')) ,  
     email                           VARCHAR(150) NOT NULL UNIQUE,       
     phone_number                    VARCHAR(20) NOT NULL, 
     nric_or_fin                     VARCHAR(9) NOT NULL,              
@@ -37,12 +37,12 @@ CREATE TABLE policy_holder (
     state_of_residence              VARCHAR(100),                       
     postal_code                     VARCHAR(20),                        
     country                         VARCHAR(100) NOT NULL,              
-    policy_holder_type              ENUM('Person', 'Business') DEFAULT 'Person',
-    preferred_contact_method        ENUM('Phone', 'Email') DEFAULT 'Email', 
+    policy_holder_type              VARCHAR(20) DEFAULT 'Person' CHECK (policy_holder_type IN ('Person', 'Business')) ,
+    preferred_contact_method        VARCHAR(20) DEFAULT 'Email' CHECK (preferred_contact_method IN ('Phone', 'Email')), 
     rep_first_name                  VARCHAR(100) NOT NULL,         -- Representative of the policy holder details          
     rep_last_name                   VARCHAR(100) NOT NULL,              
     rep_date_of_birth               DATE NOT NULL,                      
-    rep_gender                      ENUM('Male', 'Female', 'Other', 'Not specified') DEFAULT 'Not specified',  
+    rep_gender                      VARCHAR(20) DEFAULT 'Not specified' CHECK (rep_gender IN('Male', 'Female', 'Other', 'Not specified')) ,  
     rep_email                       VARCHAR(150) NOT NULL UNIQUE,       
     rep_phone_number                VARCHAR(20) NOT NULL, 
     rep_nric_or_fin                 VARCHAR(9) NOT NULL,              
@@ -52,13 +52,13 @@ CREATE TABLE policy_holder (
     rep_state_of_residence          VARCHAR(100),                       
     rep_postal_code                 VARCHAR(20),                        
     rep_country                     VARCHAR(100) NOT NULL,              
-    rep_policy_holder_type          ENUM('Person', 'Business') DEFAULT 'Person',
-    rep_preferred_contact_method    ENUM('Phone', 'Email') DEFAULT 'Email',         
+    rep_policy_holder_type          VARCHAR(20) DEFAULT 'Person' CHECK (rep_policy_holder_type IN ('Person', 'Business')) ,
+    rep_preferred_contact_method    VARCHAR(20) DEFAULT 'Email' CHECK (rep_preferred_contact_method IN ('Phone', 'Email')),        
     total_claim_count               INT DEFAULT 0,                         -- Number of claims associated with the policy_holder/History of claim count
     created_user_id                 VARCHAR(100),                   
     created_timestamp               TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	            VARCHAR(100),
-    updated_timestamp	            TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_timestamp	            TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE auto_policy (
