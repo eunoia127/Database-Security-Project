@@ -141,8 +141,8 @@ CREATE TABLE auto_policy (
     );
 
 CREATE TABLE claims (
-    claim_id                 VARCHAR(50) PRIMARY KEY,          
-    claim_contact_id         VARCHAR(50) UNIQUE NOT NULL,                            -- FK to policy_handler table
+    claim_id                 NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,          
+    claim_contact_id         INT NOT NULL,                            -- FK to policy_handler table
     policy_id                INT NOT NULL,                            -- FK to the policy table
     claim_number             VARCHAR(50) UNIQUE NOT NULL,             -- Claim reference number
     claim_date               DATE NOT NULL,                           -- Date claim was filed
