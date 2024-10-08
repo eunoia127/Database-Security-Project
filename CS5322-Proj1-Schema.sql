@@ -1,3 +1,7 @@
+---------can create roles for the our respective roles
+
+--OR
+
 -- have not added adjuster code, ids if needed in claims table, but feel free to do so, as that helps filter claims related to that 
 -- adjuster only
 --
@@ -6,8 +10,6 @@
 -- 
 -- same goes for policy investigator and auditor. please feel to add columns/tables if needed. Or else we can just use
 -- the existing db to create policies to only show the particular role - particular data
-
----------can create roles for the above
 
 ---------have to edit few identifiers to fit oracle db, in progress with them - COMPLETED, ALL GOOD, TABLES ARE BEING CREATED!!!
 
