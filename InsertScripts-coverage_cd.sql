@@ -5,25 +5,25 @@ INSERT INTO SYSTEM.COVERAGE_CD (COVERAGE_CODE, SUB_COVERAGE_CODE, COVERAGE_NAME,
 VALUES ('CL', 'OB', 'Object Collision', 'Collision into objects like tree or guardrail', 'admin', 'admin');
 
 INSERT INTO SYSTEM.COVERAGE_CD (COVERAGE_CODE, SUB_COVERAGE_CODE, COVERAGE_NAME, COVERAGE_DESCRIPTION, CREATED_USER_ID, UPDATED_USER_ID)
-VALUES ('CH', 'TH', 'Theft', 'Car theft/ Car part theft', 'admin', 'admin');
+VALUES ('CH', 'TH', 'Theft', 'Comprehensive Coverage: Car theft/ Car part theft', 'admin', 'admin');
 
 INSERT INTO SYSTEM.COVERAGE_CD (COVERAGE_CODE, SUB_COVERAGE_CODE, COVERAGE_NAME, COVERAGE_DESCRIPTION, CREATED_USER_ID, UPDATED_USER_ID)
-VALUES ('CH', 'VN', 'Vandalism', 'Intentional destruction or damage to the car', 'admin', 'admin');
+VALUES ('CH', 'VN', 'Vandalism', 'Comprehensive Coverage: Intentional destruction or damage to the car', 'admin', 'admin');
 
 INSERT INTO SYSTEM.COVERAGE_CD (COVERAGE_CODE, SUB_COVERAGE_CODE, COVERAGE_NAME, COVERAGE_DESCRIPTION, CREATED_USER_ID, UPDATED_USER_ID)
-VALUES ('CH', 'ND', 'Natural disaster', 'Natural disasters like floods, hurricanes, earthquakes etc.,', 'admin', 'admin');
+VALUES ('CH', 'ND', 'Natural disaster', 'Comprehensive Coverage: Natural disasters like floods, hurricanes, earthquakes etc.,', 'admin', 'admin');
 
 INSERT INTO SYSTEM.COVERAGE_CD (COVERAGE_CODE, SUB_COVERAGE_CODE, COVERAGE_NAME, COVERAGE_DESCRIPTION, CREATED_USER_ID, UPDATED_USER_ID)
-VALUES ('CH', 'FR', 'Fire', 'Car Fire', 'admin', 'admin');
+VALUES ('CH', 'FR', 'Fire', 'Comprehensive Coverage: Car Fire', 'admin', 'admin');
 
 INSERT INTO SYSTEM.COVERAGE_CD (COVERAGE_CODE, SUB_COVERAGE_CODE, COVERAGE_NAME, COVERAGE_DESCRIPTION, CREATED_USER_ID, UPDATED_USER_ID)
-VALUES ('CH', 'FL', 'Falling object', 'Falling objects like tree branches', 'admin', 'admin');
+VALUES ('CH', 'FL', 'Comprehensive Coverage: Falling object', 'Falling objects like tree branches', 'admin', 'admin');
 
 INSERT INTO SYSTEM.COVERAGE_CD (COVERAGE_CODE, SUB_COVERAGE_CODE, COVERAGE_NAME, COVERAGE_DESCRIPTION, CREATED_USER_ID, UPDATED_USER_ID)
-VALUES ('CH', 'AN', 'Animal Collision', 'Animal collision like hitting a deer', 'admin', 'admin');
+VALUES ('CH', 'AN', 'Comprehensive Coverage: Animal Collision', 'Animal collision like hitting a deer', 'admin', 'admin');
 
 INSERT INTO SYSTEM.COVERAGE_CD (COVERAGE_CODE, SUB_COVERAGE_CODE, COVERAGE_NAME, COVERAGE_DESCRIPTION, CREATED_USER_ID, UPDATED_USER_ID)
-VALUES ('CH', 'GL', 'Glass Damage', 'Glass Damage like broken windshields', 'admin', 'admin');
+VALUES ('CH', 'GL', 'Comprehensive Coverage: Glass Damage', 'Glass Damage like broken windshields', 'admin', 'admin');
 
 INSERT INTO SYSTEM.COVERAGE_CD (COVERAGE_CODE, SUB_COVERAGE_CODE, COVERAGE_NAME, COVERAGE_DESCRIPTION, CREATED_USER_ID, UPDATED_USER_ID)
 VALUES ('UN', 'UN', 'Uninsured Motorist', 'Protects the policyholder if they are hit by a driver who does not have insurance. It typically covers medical expenses, lost wages, and other injury-related costs.', 'admin', 'admin');
