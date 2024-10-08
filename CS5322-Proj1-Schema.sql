@@ -135,7 +135,7 @@ CREATE TABLE auto_policy (
 	created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_user_id		 VARCHAR(100),
 	updated_timestamp	 TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (policy_holder_id) REFERENCES policy_holder(policy_holder_id),            -- FK to policy_holder table
+	FOREIGN KEY (policy_holder_id) REFERENCES policy_holder(policy_holder_id)           -- FK to policy_holder table
     );
 
 CREATE TABLE claims (
