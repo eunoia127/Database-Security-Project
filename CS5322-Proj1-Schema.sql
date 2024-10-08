@@ -203,8 +203,7 @@ CREATE TABLE payments (
 CREATE TABLE injury (             
     claim_id                 INT NOT NULL,                                 -- FK to claims table
     claim_contact_id         INT NOT NULL,                                 -- FK to policy_holder table
-    injury_code              VARCHAR(20) NOT NULL,                         -- Injury code (FK to injury_cd table)
-    injury_description       CLOB,                                         
+    injury_code              VARCHAR(20) NOT NULL,                         -- Injury code (FK to injury_cd table)                                
     injury_severity          VARCHAR(20) NOT NULL CHECK (injury_severity IN ('Minor', 'Moderate', 'Major', 'Critical')), 
     med_expenses             DECIMAL(15, 2) DEFAULT 0.00,                  -- Medical expenses related to injury
     ongoing_treatment_indicator   VARCHAR(20) DEFAULT 'Yes' CHECK (ongoing_treatment_indicator IN ('Yes', 'No', 'Completed')),                        
