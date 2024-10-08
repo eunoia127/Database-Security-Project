@@ -141,7 +141,7 @@ CREATE TABLE auto_policy (
     );
 
 CREATE TABLE claims (
-    claim_id                 NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,          
+    claim_id                 NUMBER GENERATED ALWAYS AS IDENTITY,          
     claim_contact_id         INT NOT NULL,                            -- FK to policy_handler table
     policy_id                INT NOT NULL,                            -- FK to the policy table
     claim_number             VARCHAR(50) UNIQUE NOT NULL,             -- Claim reference number
@@ -165,6 +165,8 @@ CREATE TABLE claims (
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(claim_id, claim_contact_id),
+    UNIQUE(claim_id),
     FOREIGN KEY (policy_id) REFERENCES auto_policy(policy_id),                        -- FK to auto_policy table
     FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id),        -- FK to policy_holder table
     FOREIGN KEY (coverage_code, sub_coverage_code)    
@@ -172,7 +174,7 @@ CREATE TABLE claims (
 );
 
 CREATE TABLE payments (
-    payment_id               NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,               
+    payment_id               NUMBER GENERATED ALWAYS AS IDENTITY,               
     claim_id                 INT NOT NULL,                                  -- FK to claims table
     claim_contact_id         INT NOT NULL,                                  -- FK to policy_handler table
     payment_date             DATE NOT NULL,                                 -- Date when payment was made
@@ -191,14 +193,14 @@ CREATE TABLE payments (
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (claim_id) REFERENCES claims(claim_id),                     -- FK to claims table
+    PRIMARY KEY (payment_id, claim_id, claim_contact_id),
+    FOREIGN KEY (claim_id, claim_contact_id) REFERENCES claims(claim_id, claim_contact_id),   -- FK to claims table
     FOREIGN KEY (previous_claim_id) REFERENCES claims(claim_id),             -- FK to claims table
     FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id),        -- FK to policy_holder table
     FOREIGN KEY (payment_type_code) REFERENCES payment_type_cd(payment_type_code)     -- FK to payment_type_cd table
 );
 
-CREATE TABLE injury (
-    injury_id                NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,             
+CREATE TABLE injury (             
     claim_id                 INT NOT NULL,                                 -- FK to claims table
     claim_contact_id         INT NOT NULL,                                 -- FK to policy_holder table
     injury_code              VARCHAR(20) NOT NULL,                         -- Injury code (FK to injury_cd table)
@@ -210,7 +212,8 @@ CREATE TABLE injury (
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (claim_id) REFERENCES claims(claim_id),                    -- FK to claims table
+    PRIMARY KEY(claim_id, claim_contact_id, injury_code),
+    FOREIGN KEY (claim_id, claim_contact_id) REFERENCES claims(claim_id, claim_contact_id),   -- FK to claims table
     FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id),        -- FK to policy_holder table
     FOREIGN KEY (injury_code) REFERENCES injury_cd(injury_code)            -- FK to injury_cd table
 );
@@ -230,9 +233,9 @@ CREATE TABLE vendor (
     updated_user_id	     VARCHAR(100),
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (vendor_type_code, vendor_name_code) 
-        REFERENCES vendor_available_list(vendor_type_code, vendor_name_code),    -- Link to vendor_available_list for service type
-    FOREIGN KEY (claim_id) REFERENCES claims(claim_id),                        -- Link to claims table
-    FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id)  -- Link to policy_holder table  
+        REFERENCES vendor_available_list(vendor_type_code, vendor_name_code),    -- FK to vendor_available_list for 
+    FOREIGN KEY (claim_id, claim_contact_id) REFERENCES claims(claim_id, claim_contact_id),     -- FK to claims table
+    FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id)  -- FK to policy_holder table  
 );
 
 
