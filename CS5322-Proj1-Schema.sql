@@ -1,24 +1,11 @@
 ---------can create roles for the our respective roles
 
---OR
-
--- have not added adjuster code, ids if needed in claims table, but feel free to do so, as that helps filter claims related to that 
--- adjuster only
---
--- a group of adjusters can come under one manager/ all adjusters can come under one manager; 
--- can introduce static data tables for holding manager and adjuster id/code values.
--- 
--- same goes for policy investigator and auditor. please feel to add columns/tables if needed. Or else we can just use
--- the existing db to create policies to only show the particular role - particular data
-
----------have to edit few identifiers to fit oracle db, in progress with them - COMPLETED, ALL GOOD, TABLES ARE BEING CREATED!!!
-
 --STATIC DATA TABLES AND SCHEMAS
 --Available tables:
 -- 1. coverage_cd
 -- 2. payment_type_cd
 -- 3. injury_cd
--- 4. vendor_available_list
+-- 4. vendor_cd
 
 --SCHEMAS:
 
@@ -78,7 +65,6 @@ CREATE TABLE vendor_cd (
 -- 3. claims
 -- 4. payments
 -- 5. injury
--- 6. vendor
 
 --SCHEMAS:
 
