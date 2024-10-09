@@ -62,8 +62,8 @@ CREATE TABLE vendor_cd (
 --Available tables:
 -- 1. policy_holder
 -- 2. auto_policy
--- 3. claims
--- 4. payments
+-- 3. claim
+-- 4. payment
 -- 5. injury
 
 --SCHEMAS:
@@ -100,7 +100,7 @@ CREATE TABLE policy_holder (
     rep_country                     VARCHAR(100) NOT NULL,              
     rep_policy_holder_type          VARCHAR(20) DEFAULT 'Person' CHECK (rep_policy_holder_type IN ('Person', 'Business')) ,
     rep_preferred_contact_method    VARCHAR(20) DEFAULT 'Email' CHECK (rep_preferred_contact_method IN ('Phone', 'Email')),        
-    total_claim_count               INT DEFAULT 0,                         -- Number of claims associated with the policy_holder/History of claim count
+    total_claim_count               INT DEFAULT 0,                         -- Number of claim associated with the policy_holder/History of claim count
     created_user_id                 VARCHAR(100),                   
     created_timestamp               TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	            VARCHAR(100),
@@ -130,7 +130,7 @@ CREATE TABLE auto_policy (
 	FOREIGN KEY (policy_holder_id) REFERENCES policy_holder(policy_holder_id)           -- FK to policy_holder table
     );
 
-CREATE TABLE claims (
+CREATE TABLE claim (
     claim_id                 NUMBER GENERATED ALWAYS AS IDENTITY,          
     claim_contact_id         INT NOT NULL,                            -- FK to policy_handler table
     policy_id                INT NOT NULL,                            -- FK to the policy table
@@ -164,16 +164,16 @@ CREATE TABLE claims (
                             REFERENCES coverage_cd(coverage_code, sub_coverage_code)  -- FK to coverage_cd table
 );
 
-CREATE TABLE payments (
+CREATE TABLE payment (
     payment_id               NUMBER GENERATED ALWAYS AS IDENTITY,               
-    claim_id                 INT NOT NULL,                                  -- FK to claims table
+    claim_id                 INT NOT NULL,                                  -- FK to claim table
     claim_contact_id         INT NOT NULL,                                  -- FK to policy_handler table
     payment_date             DATE NOT NULL,                                 -- Date when payment was made
     payment_amount           DECIMAL(15, 2) NOT NULL,                       -- Total payment amount
     payment_type_code        VARCHAR(20) NOT NULL,                          -- Code for payment types(FK to payment_type_cd table)
     payment_method           VARCHAR(20) DEFAULT 'Bank Transfer' CHECK (payment_method IN ('Bank Transfer', 'Check', 'Credit Card', 'Cash')), 
     payment_status           VARCHAR(20) DEFAULT 'Pending' CHECK (payment_status IN ('Paid', 'Pending', 'Rejected', 'Failed')), 
-    previous_claim_id        INT DEFAULT NULL,                              -- Related previous claim (if applicable - FK to claims table)
+    previous_claim_id        INT DEFAULT NULL,                              -- Related previous claim (if applicable - FK to claim table)
     payment_reference_number VARCHAR(50) UNIQUE,                            -- Unique reference number for the payment
     bank_account_number      VARCHAR(50),                                   -- Bank account number for deposit
     payment_note             CLOB,                                          -- Additional notes regarding the payment
@@ -185,14 +185,14 @@ CREATE TABLE payments (
     updated_user_id	     VARCHAR(100),
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (payment_id, claim_id, claim_contact_id),
-    FOREIGN KEY (claim_id, claim_contact_id) REFERENCES claims(claim_id, claim_contact_id),   -- FK to claims table
-    FOREIGN KEY (previous_claim_id) REFERENCES claims(claim_id),             -- FK to claims table
+    FOREIGN KEY (claim_id, claim_contact_id) REFERENCES claim(claim_id, claim_contact_id),   -- FK to claim table
+    FOREIGN KEY (previous_claim_id) REFERENCES claim(claim_id),             -- FK to claim table
     FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id),        -- FK to policy_holder table
     FOREIGN KEY (payment_type_code) REFERENCES payment_type_cd(payment_type_code)     -- FK to payment_type_cd table
 );
 
 CREATE TABLE injury (             
-    claim_id                 INT NOT NULL,                                 -- FK to claims table
+    claim_id                 INT NOT NULL,                                 -- FK to claim table
     claim_contact_id         INT NOT NULL,                                 -- FK to policy_holder table
     injury_code              VARCHAR(20) NOT NULL,                         -- Injury code (FK to injury_cd table)                                
     injury_severity          VARCHAR(20) NOT NULL CHECK (injury_severity IN ('Minor', 'Moderate', 'Major', 'Critical')), 
@@ -203,7 +203,7 @@ CREATE TABLE injury (
     updated_user_id	     VARCHAR(100),
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(claim_id, claim_contact_id, injury_code),
-    FOREIGN KEY (claim_id, claim_contact_id) REFERENCES claims(claim_id, claim_contact_id),   -- FK to claims table
+    FOREIGN KEY (claim_id, claim_contact_id) REFERENCES claim(claim_id, claim_contact_id),   -- FK to claim table
     FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id),        -- FK to policy_holder table
     FOREIGN KEY (injury_code) REFERENCES injury_cd(injury_code)            -- FK to injury_cd table
 );
@@ -211,10 +211,10 @@ CREATE TABLE injury (
 
 
 -- DROP SCRIPTS:(IN ORDER)
-DROP TABLE payments;
+DROP TABLE payment;
 DROP TABLE injury;
 DROP TABLE vendor;
-DROP TABLE claims;
+DROP TABLE claim;
 DROP TABLE auto_policy;
 DROP TABLE policy_holder;
 DROP TABLE injury_cd;
