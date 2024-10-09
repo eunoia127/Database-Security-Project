@@ -54,15 +54,19 @@ CREATE TABLE injury_cd (
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP                                 
 );
 
-CREATE TABLE vendor_available_list (
+CREATE TABLE vendor_cd (
+    vendor_id                NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,                   
     vendor_type_code         VARCHAR(20) NOT NULL,       -- Type of service (towing/labor/salvage)
     vendor_name_code         VARCHAR(20) NOT NULL,                       
     vendor_full_name         VARCHAR(100) NOT NULL,      -- Name of the vendor
+    vendor_email             VARCHAR(100) UNIQUE,                                  
+    vendor_phone             VARCHAR(20),
+    vendor_rating            DECIMAL(3, 2),              -- Rating of the vendor (1.00 to 5.00)
+    service_rate             DECIMAL(10, 2),             -- Service rate charged by the vendor per service
     created_user_id          VARCHAR(100),                   
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
-    updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   
-    PRIMARY KEY (vendor_type_code, vendor_name_code)  
+    updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -161,6 +165,7 @@ CREATE TABLE claims (
     payment_amount           DECIMAL(15, 2),                          -- Actual payout amount for the claim
     payment_date             DATE,                                    -- Date the payment/claim was settled
     claim_validation_notes   CLOB,                                    -- Additional notes for claim validation and processing
+    vendor_id                INT DEFAULT NULL,                        -- vendor ID if the vendor service is requested
     created_user_id          VARCHAR(100),                   
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
@@ -217,25 +222,6 @@ CREATE TABLE injury (
     FOREIGN KEY (injury_code) REFERENCES injury_cd(injury_code)            -- FK to injury_cd table
 );
 
-CREATE TABLE vendor (
-    vendor_id                NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,                   -- Unique identifier for each vendor
-    claim_id                 INT NOT NULL,                                     -- FK to claims table
-    claim_contact_id         INT NOT NULL,                                     -- FK to policy_holder table
-    vendor_name_code         VARCHAR(20) NOT NULL,                            -- Vendor's business name code(FK to vendor_available_list table)
-    vendor_type_code         VARCHAR(20) NOT NULL,                             -- Vendor type code(FK to vendor_available_list)
-    vendor_email             VARCHAR(100) UNIQUE,                                  
-    vendor_phone             VARCHAR(20),
-    vendor_rating            DECIMAL(3, 2),                                    -- Rating of the vendor (1.00 to 5.00)
-    service_rate             DECIMAL(10, 2),                                   -- Service rate charged by the vendor per service
-    created_user_id          VARCHAR(100),                   
-    created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_user_id	     VARCHAR(100),
-    updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (vendor_type_code, vendor_name_code) 
-        REFERENCES vendor_available_list(vendor_type_code, vendor_name_code),    -- FK to vendor_available_list for 
-    FOREIGN KEY (claim_id, claim_contact_id) REFERENCES claims(claim_id, claim_contact_id),     -- FK to claims table
-    FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id)  -- FK to policy_holder table  
-);
 
 
 -- DROP SCRIPTS:(IN ORDER)
@@ -248,4 +234,4 @@ DROP TABLE policy_holder;
 DROP TABLE injury_cd;
 DROP TABLE coverage_cd;
 DROP TABLE payment_type_cd;
-DROP TABLE vendor_available_list;
+DROP TABLE vendor_cd;
