@@ -152,6 +152,9 @@ CREATE TABLE claim (
     payment_date             DATE,                                    -- Date the payment/claim was settled
     claim_validation_notes   CLOB,                                    -- Additional notes for claim validation and processing
     vendor_id                INT DEFAULT NULL,                        -- vendor ID if the vendor service is requested
+    adjuster_id              INT NOT NULL
+    auditor_id               INT DEFAULT NULL,
+    policy_holder_id         INT DEFAULT NULL,
     created_user_id          VARCHAR(100),                   
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
