@@ -97,7 +97,7 @@ CREATE TABLE policy_investigator_cd (
 
 CREATE TABLE adjuster_cd (
     adjuster_id      NUMBER PRIMARY KEY,
-    auditor_name     VARCHAR2(100) NOT NULL,
+    adjuster_name     VARCHAR2(100) NOT NULL,
     contact_info     VARCHAR2(100),
     hire_date        DATE,
     salary           NUMBER,
