@@ -162,7 +162,7 @@ CREATE TABLE claim (
     claim_validation_notes   CLOB,                                    -- Additional notes for claim validation and processing
     vendor_id                INT DEFAULT NULL,                        -- vendor ID if the vendor service is requested
     vendor_invoice_submitted_flag  CHAR(1) DEFAULT 'N',
-    adjuster_id              INT NOT NULL
+    adjuster_id              INT NOT NULL,
     auditor_id               INT DEFAULT NULL,
     policy_inverstigator_id  INT DEFAULT NULL,
     created_user_id          VARCHAR(100),                   
