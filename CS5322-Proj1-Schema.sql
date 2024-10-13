@@ -149,7 +149,8 @@ CREATE TABLE claim (
     claim_contact_alive_flag CHAR(1) DEFAULT 'Y',                     -- 'N' for FALSE, 'Y' for TRUE
     claim_incident_address_line_1              VARCHAR(255) NOT NULL,              
     claim_incident_address_line_2              VARCHAR(255),                       
-    claim_incident_city                        VARCHAR(100) NOT NULL,                                   
+    claim_incident_city                        VARCHAR(100) NOT NULL,   
+    claim_incident_state                       VARCHAR(100) NOT NULL,
     claim_incident_postal_code                 VARCHAR(20),                        
     claim_incident_country                     VARCHAR(100) NOT NULL,  
     claim_incident_contact_phone               VARCHAR(20),           -- preferably the user's phone who raised the claim
