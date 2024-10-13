@@ -219,8 +219,8 @@ CREATE TABLE claim (
     FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id),        -- FK to policy_holder table
     FOREIGN KEY (coverage_code, sub_coverage_code)    
                             REFERENCES coverage_cd(coverage_code, sub_coverage_code),  -- FK to coverage_cd table
-    FOREIGN KEY (auditor_id) REFERENCES auditor_cd(AUDITOR_PK),
-    FOREIGN KEY (policy_inverstigator_id) REFERENCES policy_inverstigator_cd(inverstigator_id),
+    FOREIGN KEY (auditor_id) REFERENCES auditor_cd(auditor_id),
+    FOREIGN KEY (policy_inverstigator_id) REFERENCES policy_investigator_cd(investigator_id),
     FOREIGN KEY (adjuster_id) REFERENCES adjuster_cd(adjuster_id)
 );
 
