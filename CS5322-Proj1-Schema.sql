@@ -8,6 +8,8 @@
 -- 4. vendor_cd
 -- 5. auditor_cd
 -- 6. policy_investigator_cd
+-- 7. manager_cd
+-- 8. adjuster_cd
 
 --SCHEMAS:
 
@@ -60,22 +62,21 @@ CREATE TABLE vendor_cd (
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE MANAGER_CD (
-    manager_id NUMBER PRIMARY KEY,
-    manager_name VARCHAR2(100) NOT NULL,
-    contact_info VARCHAR2(100),
-    hire_date DATE,
-    department VARCHAR2(50)
+CREATE TABLE manager_cd (
+    manager_id     NUMBER PRIMARY KEY,
+    manager_name   VARCHAR2(100) NOT NULL,
+    contact_info   VARCHAR2(100),
+    hire_date      DATE,
+    department     VARCHAR2(50)
 );
 
-
-CREATE TABLE auditor_cd 
-   (	auditor_id NUMBER NOT NULL ENABLE, 
-	auditor_name VARCHAR2(30 BYTE) NOT NULL ENABLE, 
-	auditor_email VARCHAR2(30 BYTE), 
-	auditor_number NUMBER, 
-	 CONSTRAINT "AUDITOR_PK" PRIMARY KEY ("AUDITOR_ID")
-   );
+CREATE TABLE auditor_cd (
+    auditor_id       NUMBER NOT NULL ENABLE,
+    auditor_name     VARCHAR2(30 BYTE) NOT NULL ENABLE,
+    auditor_email    VARCHAR2(30 BYTE),
+    auditor_number   NUMBER,
+    CONSTRAINT "AUDITOR_PK" PRIMARY KEY ("AUDITOR_ID")
+);
 
 CREATE TABLE policy_investigator_cd (
     investigator_id          NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,  -- Unique ID for each investigator
@@ -93,6 +94,16 @@ CREATE TABLE policy_investigator_cd (
 );
 
 
+CREATE TABLE adjuster_cd (
+    adjuster_id      NUMBER PRIMARY KEY,
+    auditor_name     VARCHAR2(100) NOT NULL,
+    contact_info     VARCHAR2(100),
+    hire_date        DATE,
+    salary           NUMBER,
+    manager_id       NUMBER,
+    FOREIGN KEY (manager_id) REFERENCES manager_cd(manager_id)
+);
+
 
 --DYNAMIC DATA TABLES and SCHEMAS:
 --Available tables:
@@ -101,6 +112,7 @@ CREATE TABLE policy_investigator_cd (
 -- 3. claim
 -- 4. payment
 -- 5. injury
+-- 6. status
 
 --SCHEMAS:
 
@@ -255,12 +267,21 @@ CREATE TABLE injury (
     FOREIGN KEY (injury_code) REFERENCES injury_cd(injury_code)            -- FK to injury_cd table
 );
 
-CREATE TABLE MANAGER_CD (
-    manager_id NUMBER PRIMARY KEY,
-    manager_name VARCHAR2(100) NOT NULL,
-    contact_info VARCHAR2(100),
-    hire_date DATE,
-    department VARCHAR2(50)
+CREATE TABLE status (
+    claim_id NUMBER PRIMARY KEY,
+    adjuster_id NUMBER,
+    auditor_id NUMBER,
+    auditor_status VARCHAR(20) DEFAULT 'Not specified' CHECK (auditor_status IN('Approved', 'Rejected', 'In Process')),
+    investigator_id NUMBER,
+    investigator_status VARCHAR(20) DEFAULT 'Not specified' CHECK (investigator_status IN('Approved', 'Rejected', 'In Process')),
+    manager_id NUMBER,
+    vendor_id NUMBER,
+    vendor_type_code VARCHAR(20),
+    vendor_status VARCHAR(20) DEFAULT 'Not specified' CHECK (vendor_status IN('Approved', 'Rejected', 'In Process')),
+    FOREIGN KEY (adjuster_id) REFERENCES adjuster_cd(adjuster_id),
+    FOREIGN KEY (manager_id) REFERENCES manager_cd(manager_id),
+    FOREIGN KEY (auditor_id) REFERENCES auditor_cd(auditor_id),
+    FOREIGN KEY (investigator_id) REFERENCES policy_investigator_cd(investigator_id)
 );
 
 
