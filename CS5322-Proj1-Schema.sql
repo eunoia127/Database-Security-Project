@@ -7,7 +7,7 @@
 -- 3. injury_cd
 -- 4. vendor_cd
 -- 5. auditor_cd
--- 6. policy_investigator
+-- 6. policy_investigator_cd
 
 --SCHEMAS:
 
