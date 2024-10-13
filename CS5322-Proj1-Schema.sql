@@ -68,7 +68,7 @@ CREATE TABLE auditor_cd
 	 CONSTRAINT "AUDITOR_PK" PRIMARY KEY ("AUDITOR_ID")
    );
 
-CREATE TABLE policy_investigator (
+CREATE TABLE policy_investigator_cd (
     investigator_id          NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,  -- Unique ID for each investigator
     investigator_first_name   VARCHAR(100) NOT NULL,       -- First name of the investigator
     investigator_last_name    VARCHAR(100) NOT NULL,       -- Last name of the investigator
@@ -200,7 +200,7 @@ CREATE TABLE claim (
     FOREIGN KEY (coverage_code, sub_coverage_code)    
                             REFERENCES coverage_cd(coverage_code, sub_coverage_code),  -- FK to coverage_cd table
     FOREIGN KEY (auditor_id) REFERENCES auditor_cd(AUDITOR_PK),
-    FOREIGN KEY (policy_inverstigator_id) REFERENCES policy_inverstigator(inverstigator_id)
+    FOREIGN KEY (policy_inverstigator_id) REFERENCES policy_inverstigator_cd(inverstigator_id)
 );
 
 CREATE TABLE payment (
