@@ -145,6 +145,11 @@ CREATE TABLE claim (
     sub_coverage_code        VARCHAR(20) NOT NULL,                    -- Code for specific sub coverages(FK to coverage_cd table)
     self_fault_indicator     CHAR(1) DEFAULT 'N',                     -- Indicates if the policyholder is at fault - - 'N' for FALSE, 'Y' for TRUE
     claim_contact_alive_flag CHAR(1) DEFAULT 'Y',                     -- 'N' for FALSE, 'Y' for TRUE
+    claim_incident_address_line_1              VARCHAR(255) NOT NULL,              
+    claim_incident_address_line_2              VARCHAR(255),                       
+    claim_incident_city                        VARCHAR(100) NOT NULL,                                   
+    claim_incident_postal_code                 VARCHAR(20),                        
+    claim_incident_country                     VARCHAR(100) NOT NULL,  
     legal_status             VARCHAR(20) DEFAULT 'None' CHECK (legal_status IN ('None', 'Ongoing', 'Resolved')), -- Any legal disputes related to the claim
     claim_amount             DECIMAL(15, 2) NOT NULL,                 -- Claim amount required to settle the claim
     claim_reserve_amount     DECIMAL(15, 2),                          -- Reserved amount for the claim
