@@ -246,6 +246,14 @@ CREATE TABLE injury (
     FOREIGN KEY (injury_code) REFERENCES injury_cd(injury_code)            -- FK to injury_cd table
 );
 
+CREATE TABLE MANAGER_CD (
+    manager_id NUMBER PRIMARY KEY,
+    manager_name VARCHAR2(100) NOT NULL,
+    contact_info VARCHAR2(100),
+    hire_date DATE,
+    department VARCHAR2(50)
+);
+
 
 
 -- DROP SCRIPTS:(IN ORDER)
