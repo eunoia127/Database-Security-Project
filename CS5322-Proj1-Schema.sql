@@ -77,7 +77,6 @@ CREATE TABLE policy_investigator_cd (
     assigned_region           VARCHAR(100),                -- Region/Area assigned for investigation
     investigator_role         VARCHAR(50) DEFAULT 'Policy Investigator' CHECK (investigator_role = 'Policy Investigator'),
     investigator_status       VARCHAR(20) DEFAULT 'Active' CHECK (investigator_status IN ('Active', 'Inactive')),
-    investigator_assigned_claim VARCHAR(20),
     created_user_id           VARCHAR(100),                -- ID of the user who created this entry
     created_timestamp         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the entry was created
     updated_user_id           VARCHAR(100),                -- ID of the user who last updated this entry
