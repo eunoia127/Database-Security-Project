@@ -7,6 +7,7 @@
 -- 3. injury_cd
 -- 4. vendor_cd
 -- 5. auditor_cd
+-- 6. policy_investigator
 
 --SCHEMAS:
 
@@ -66,6 +67,22 @@ CREATE TABLE auditor_cd
 	auditor_number NUMBER, 
 	 CONSTRAINT "AUDITOR_PK" PRIMARY KEY ("AUDITOR_ID")
    );
+
+CREATE TABLE policy_investigator (
+    investigator_id          NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,  -- Unique ID for each investigator
+    investigator_first_name   VARCHAR(100) NOT NULL,       -- First name of the investigator
+    investigator_last_name    VARCHAR(100) NOT NULL,       -- Last name of the investigator
+    investigator_email        VARCHAR(150) UNIQUE NOT NULL,-- Email of the investigator
+    investigator_phone        VARCHAR(20),                 -- Phone number of the investigator
+    assigned_region           VARCHAR(100),                -- Region/Area assigned for investigation
+    investigator_role         VARCHAR(50) DEFAULT 'Policy Investigator' CHECK (investigator_role = 'Policy Investigator'),
+    investigator_status       VARCHAR(20) DEFAULT 'Active' CHECK (investigator_status IN ('Active', 'Inactive')),
+    investigator_assigned_claim VARCHAR(20),
+    created_user_id           VARCHAR(100),                -- ID of the user who created this entry
+    created_timestamp         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the entry was created
+    updated_user_id           VARCHAR(100),                -- ID of the user who last updated this entry
+    updated_timestamp         TIMESTAMP DEFAULT CURRENT_TIMESTAMP   -- Timestamp when the entry was last updated
+);
 
 
 
@@ -142,7 +159,7 @@ CREATE TABLE auto_policy (
     );
 
 CREATE TABLE claim (
-    claim_id                 NUMBER GENERATED ALWAYS AS IDENTITY,          
+    claim_id                 NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,          
     claim_contact_id         INT NOT NULL,                            -- FK to policy_handler table
     policy_id                INT NOT NULL,                            -- FK to the policy table
     claim_number             VARCHAR(50) UNIQUE NOT NULL,             -- Claim reference number
@@ -178,12 +195,12 @@ CREATE TABLE claim (
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY(claim_id, claim_contact_id),
-    UNIQUE(claim_id),
     FOREIGN KEY (policy_id) REFERENCES auto_policy(policy_id),                        -- FK to auto_policy table
     FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id),        -- FK to policy_holder table
     FOREIGN KEY (coverage_code, sub_coverage_code)    
-                            REFERENCES coverage_cd(coverage_code, sub_coverage_code)  -- FK to coverage_cd table
+                            REFERENCES coverage_cd(coverage_code, sub_coverage_code),  -- FK to coverage_cd table
+    FOREIGN KEY (auditor_id) REFERENCES auditor_cd(AUDITOR_PK),
+    FOREIGN KEY (policy_inverstigator_id) REFERENCES policy_inverstigator(inverstigator_id)
 );
 
 CREATE TABLE payment (
@@ -206,8 +223,8 @@ CREATE TABLE payment (
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (payment_id, claim_id, claim_contact_id),
-    FOREIGN KEY (claim_id, claim_contact_id) REFERENCES claim(claim_id, claim_contact_id),   -- FK to claim table
+    PRIMARY KEY (payment_id, claim_id),
+    FOREIGN KEY (claim_id) REFERENCES claim(claim_id),   -- FK to claim table
     FOREIGN KEY (previous_claim_id) REFERENCES claim(claim_id),             -- FK to claim table
     FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id),        -- FK to policy_holder table
     FOREIGN KEY (payment_type_code) REFERENCES payment_type_cd(payment_type_code)     -- FK to payment_type_cd table
@@ -224,28 +241,11 @@ CREATE TABLE injury (
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY(claim_id, claim_contact_id, injury_code),
-    FOREIGN KEY (claim_id, claim_contact_id) REFERENCES claim(claim_id, claim_contact_id),   -- FK to claim table
+    PRIMARY KEY(claim_id, injury_code),
+    FOREIGN KEY (claim_id) REFERENCES claim(claim_id),   -- FK to claim table
     FOREIGN KEY (claim_contact_id) REFERENCES policy_holder(policy_holder_id),        -- FK to policy_holder table
     FOREIGN KEY (injury_code) REFERENCES injury_cd(injury_code)            -- FK to injury_cd table
 );
-
-CREATE TABLE policy_investigator (
-    investigator_id          NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,  -- Unique ID for each investigator
-    investigator_first_name   VARCHAR(100) NOT NULL,       -- First name of the investigator
-    investigator_last_name    VARCHAR(100) NOT NULL,       -- Last name of the investigator
-    investigator_email        VARCHAR(150) UNIQUE NOT NULL,-- Email of the investigator
-    investigator_phone        VARCHAR(20),                 -- Phone number of the investigator
-    assigned_region           VARCHAR(100),                -- Region/Area assigned for investigation
-    investigator_role         VARCHAR(50) DEFAULT 'Policy Investigator' CHECK (investigator_role = 'Policy Investigator'),
-    investigator_status       VARCHAR(20) DEFAULT 'Active' CHECK (investigator_status IN ('Active', 'Inactive')),
-    investigator_assigned_claim VARCHAR(20),
-    created_user_id           VARCHAR(100),                -- ID of the user who created this entry
-    created_timestamp         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the entry was created
-    updated_user_id           VARCHAR(100),                -- ID of the user who last updated this entry
-    updated_timestamp         TIMESTAMP DEFAULT CURRENT_TIMESTAMP   -- Timestamp when the entry was last updated
-);
-
 
 
 
