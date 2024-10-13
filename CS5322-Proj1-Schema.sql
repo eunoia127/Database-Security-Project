@@ -152,6 +152,7 @@ CREATE TABLE claim (
     claim_incident_city                        VARCHAR(100) NOT NULL,                                   
     claim_incident_postal_code                 VARCHAR(20),                        
     claim_incident_country                     VARCHAR(100) NOT NULL,  
+    claim_incident_contact_phone               VARCHAR(20),           -- preferably the user's phone who raised the claim
     legal_status             VARCHAR(20) DEFAULT 'None' CHECK (legal_status IN ('None', 'Ongoing', 'Resolved')), -- Any legal disputes related to the claim
     claim_amount             DECIMAL(15, 2) NOT NULL,                 -- Claim amount required to settle the claim
     claim_reserve_amount     DECIMAL(15, 2),                          -- Reserved amount for the claim
@@ -159,6 +160,7 @@ CREATE TABLE claim (
     payment_date             DATE,                                    -- Date the payment/claim was settled
     claim_validation_notes   CLOB,                                    -- Additional notes for claim validation and processing
     vendor_id                INT DEFAULT NULL,                        -- vendor ID if the vendor service is requested
+    vendor_invoice_submitted_flag  CHAR(1) DEFAULT 'N',
     adjuster_id              INT NOT NULL
     auditor_id               INT DEFAULT NULL,
     policy_inverstigator_id  INT DEFAULT NULL,
