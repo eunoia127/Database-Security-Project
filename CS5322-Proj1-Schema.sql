@@ -60,6 +60,15 @@ CREATE TABLE vendor_cd (
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE MANAGER_CD (
+    manager_id NUMBER PRIMARY KEY,
+    manager_name VARCHAR2(100) NOT NULL,
+    contact_info VARCHAR2(100),
+    hire_date DATE,
+    department VARCHAR2(50)
+);
+
+
 CREATE TABLE auditor_cd 
    (	auditor_id NUMBER NOT NULL ENABLE, 
 	auditor_name VARCHAR2(30 BYTE) NOT NULL ENABLE, 
