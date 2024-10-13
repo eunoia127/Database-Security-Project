@@ -53,6 +53,7 @@ CREATE TABLE vendor_cd (
     vendor_email             VARCHAR(100) UNIQUE,                                  
     vendor_phone             VARCHAR(20),
     vendor_city              VARCHAR(100) NOT NULL,
+    vendor_state             VARCHAR(100) NOT NULL,
     vendor_country           VARCHAR(100) NOT NULL,
     vendor_rating            DECIMAL(3, 2),              -- Rating of the vendor (1.00 to 5.00)
     service_rate             DECIMAL(10, 2),             -- Service rate charged by the vendor per service
