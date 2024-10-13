@@ -6,6 +6,7 @@
 -- 2. payment_type_cd
 -- 3. injury_cd
 -- 4. vendor_cd
+-- 5. auditor_cd
 
 --SCHEMAS:
 
@@ -57,6 +58,14 @@ CREATE TABLE vendor_cd (
     updated_user_id	     VARCHAR(100),
     updated_timestamp	     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE auditor_cd 
+   (	auditor_id NUMBER NOT NULL ENABLE, 
+	auditor_name VARCHAR2(30 BYTE) NOT NULL ENABLE, 
+	auditor_email VARCHAR2(30 BYTE), 
+	auditor_number NUMBER, 
+	 CONSTRAINT "AUDITOR_PK" PRIMARY KEY ("AUDITOR_ID")
+   );
 
 
 
