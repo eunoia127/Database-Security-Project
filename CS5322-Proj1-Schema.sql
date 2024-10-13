@@ -221,6 +221,23 @@ CREATE TABLE injury (
     FOREIGN KEY (injury_code) REFERENCES injury_cd(injury_code)            -- FK to injury_cd table
 );
 
+CREATE TABLE policy_investigator (
+    investigator_id          NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,  -- Unique ID for each investigator
+    investigator_first_name   VARCHAR(100) NOT NULL,       -- First name of the investigator
+    investigator_last_name    VARCHAR(100) NOT NULL,       -- Last name of the investigator
+    investigator_email        VARCHAR(150) UNIQUE NOT NULL,-- Email of the investigator
+    investigator_phone        VARCHAR(20),                 -- Phone number of the investigator
+    assigned_region           VARCHAR(100),                -- Region/Area assigned for investigation
+    investigator_role         VARCHAR(50) DEFAULT 'Policy Investigator' CHECK (investigator_role = 'Policy Investigator'),
+    investigator_status       VARCHAR(20) DEFAULT 'Active' CHECK (investigator_status IN ('Active', 'Inactive')),
+    investigator_assigned_claim VARCHAR(20),
+    created_user_id           VARCHAR(100),                -- ID of the user who created this entry
+    created_timestamp         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the entry was created
+    updated_user_id           VARCHAR(100),                -- ID of the user who last updated this entry
+    updated_timestamp         TIMESTAMP DEFAULT CURRENT_TIMESTAMP   -- Timestamp when the entry was last updated
+);
+
+
 
 
 -- DROP SCRIPTS:(IN ORDER)
