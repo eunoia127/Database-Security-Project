@@ -72,15 +72,14 @@ CREATE TABLE manager_cd (
 );
 
 CREATE TABLE auditor_cd (
-    auditor_id       NUMBER NOT NULL ENABLE,
-    auditor_name     VARCHAR2(30 BYTE) NOT NULL ENABLE,
+    auditor_id       NUMBER PRIMARY KEY,
+    auditor_name     VARCHAR2(30 BYTE) NOT NULL,
     auditor_email    VARCHAR2(30 BYTE),
-    auditor_number   NUMBER,
-    CONSTRAINT "AUDITOR_PK" PRIMARY KEY ("AUDITOR_ID")
+    auditor_number   NUMBER
 );
 
 CREATE TABLE policy_investigator_cd (
-    investigator_id           NUMBER PRIMARY KEY,  -- Unique ID for each investigator
+    investigator_id          NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,  -- Unique ID for each investigator
     investigator_first_name   VARCHAR(100) NOT NULL,       -- First name of the investigator
     investigator_last_name    VARCHAR(100) NOT NULL,       -- Last name of the investigator
     investigator_email        VARCHAR(150) UNIQUE NOT NULL,-- Email of the investigator
@@ -207,11 +206,11 @@ CREATE TABLE claim (
     payment_amount           DECIMAL(15, 2),                          -- Actual payout amount for the claim
     payment_date             DATE,                                    -- Date the payment/claim was settled
     claim_validation_notes   CLOB,                                    -- Additional notes for claim validation and processing
-    vendor_id                INT DEFAULT NULL,                        -- vendor ID if the vendor service is requested
+    vendor_id                NUMBER,                        -- vendor ID if the vendor service is requested
     vendor_invoice_submitted_flag  CHAR(1) DEFAULT 'N',
-    adjuster_id              INT NOT NULL,
-    auditor_id               INT DEFAULT NULL,
-    policy_inverstigator_id  INT DEFAULT NULL,
+    adjuster_id              NUMBER,
+    auditor_id               NUMBER,
+    policy_inverstigator_id  NUMBER,
     created_user_id          VARCHAR(100),                   
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
@@ -221,7 +220,8 @@ CREATE TABLE claim (
     FOREIGN KEY (coverage_code, sub_coverage_code)    
                             REFERENCES coverage_cd(coverage_code, sub_coverage_code),  -- FK to coverage_cd table
     FOREIGN KEY (auditor_id) REFERENCES auditor_cd(AUDITOR_PK),
-    FOREIGN KEY (inverstigator_id) REFERENCES policy_inverstigator_cd(inverstigator_id)
+    FOREIGN KEY (policy_inverstigator_id) REFERENCES policy_inverstigator_cd(inverstigator_id),
+    FOREIGN KEY (adjuster_id) REFERENCES adjuster_cd(adjuster_id)
 );
 
 CREATE TABLE payment (
@@ -269,7 +269,7 @@ CREATE TABLE injury (
 );
 
 CREATE TABLE status (
-    claim_id NUMBER PRIMARY KEY,
+    claim_id INT NOT NULL PRIMARY KEY,
     adjuster_id NUMBER,
     auditor_id NUMBER,
     auditor_status VARCHAR(20) DEFAULT 'Not specified' CHECK (auditor_status IN('Approved', 'Rejected', 'In Process')),
@@ -282,7 +282,8 @@ CREATE TABLE status (
     FOREIGN KEY (adjuster_id) REFERENCES adjuster_cd(adjuster_id),
     FOREIGN KEY (manager_id) REFERENCES manager_cd(manager_id),
     FOREIGN KEY (auditor_id) REFERENCES auditor_cd(auditor_id),
-    FOREIGN KEY (investigator_id) REFERENCES policy_investigator_cd(investigator_id)
+    FOREIGN KEY (investigator_id) REFERENCES policy_investigator_cd(investigator_id),
+    FOREIGN KEY (vendor_id) REFERENCES vendor_cd(vendor_id)
 );
 
 
