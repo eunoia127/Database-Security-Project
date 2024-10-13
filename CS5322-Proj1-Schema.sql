@@ -48,6 +48,8 @@ CREATE TABLE vendor_cd (
     vendor_full_name         VARCHAR(100) NOT NULL,      -- Name of the vendor
     vendor_email             VARCHAR(100) UNIQUE,                                  
     vendor_phone             VARCHAR(20),
+    vendor_city              VARCHAR(100) NOT NULL,
+    vendor_country           VARCHAR(100) NOT NULL,
     vendor_rating            DECIMAL(3, 2),              -- Rating of the vendor (1.00 to 5.00)
     service_rate             DECIMAL(10, 2),             -- Service rate charged by the vendor per service
     created_user_id          VARCHAR(100),                   
@@ -159,7 +161,7 @@ CREATE TABLE claim (
     vendor_id                INT DEFAULT NULL,                        -- vendor ID if the vendor service is requested
     adjuster_id              INT NOT NULL
     auditor_id               INT DEFAULT NULL,
-    policy_holder_id         INT DEFAULT NULL,
+    policy_inverstigator_id  INT DEFAULT NULL,
     created_user_id          VARCHAR(100),                   
     created_timestamp        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_user_id	     VARCHAR(100),
