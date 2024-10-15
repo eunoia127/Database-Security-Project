@@ -17,7 +17,11 @@ END;
 CREATE OR REPLACE FUNCTION policy_holder_vpd_function (p_schema VARCHAR2, p_object VARCHAR2)
 RETURN VARCHAR2 AS
 BEGIN
-  RETURN 'policy_holder_id = SYS_CONTEXT(''USERENV'', ''SESSION_USER_ID'')';
+  IF SYS_CONTEXT('USERENV', 'SESSION_USER') = 'SYSTEM' THEN
+    RETURN NULL;  -- Don't restrict system user
+  ELSE
+    RETURN 'policy_holder_id = SYS_CONTEXT(''USERENV'', ''SESSION_USER_ID'')';
+  END IF;
 END policy_holder_vpd_function;
 
 BEGIN
