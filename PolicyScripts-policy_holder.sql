@@ -49,7 +49,7 @@ BEGIN
     policy_name    => 'claim_select_policy',
     function_schema=> 'INSURANCE',
     policy_function=> 'policy_holder_vpd_function',
-    statement_types=> 'SELECT, INSERT, UPDATE'
+    statement_types=> 'SELECT'
   );
 END;
 
